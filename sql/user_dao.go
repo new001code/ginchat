@@ -25,6 +25,8 @@ func (d *UserDao) Create(param *query.UserQuery) error {
 			tx.Rollback()
 		}
 	}()
+	var count uint64
+	tx.Model(&model.Users{}).Where("username = ?", param.Username).Count(&count)
 	uid := util.GetUUID()
 	b := models.Base{
 		ID:         uid,
