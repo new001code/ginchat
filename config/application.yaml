@@ -1,0 +1,15 @@
+env: release
+port: 8081
+dataSource:
+  # type: mysql postgres sqlite
+  type: mysql
+  username: root
+  password: qwert12345
+  host: 127.0.0.1
+  port: 3306
+  database: ginchat
+
+dataSourcePool:
+  maxIdleConns: 10
+  maxOpenConns: 100
+  connMaxLifetime: 86400  
