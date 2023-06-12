@@ -2,6 +2,7 @@ package sql
 
 import (
 	"database/sql"
+	"errors"
 	"ginchat/models"
 	query "ginchat/models/query"
 	"ginchat/util"
@@ -10,12 +11,20 @@ import (
 
 type UserDao struct{}
 
-func (d *UserDao) Create(param *query.UserQuery) {
+func (d *UserDao) Create(param *query.UserQuery) error {
 	if param.Username == "" {
-
+		return errors.New("username is null")
+	}
+	if param.Password == "" {
+		return errors.New("password is null")
 	}
 	db := util.GetDB()
 	tx := db.Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
 	uid := util.GetUUID()
 	b := models.Base{
 		ID:         uid,
@@ -30,5 +39,10 @@ func (d *UserDao) Create(param *query.UserQuery) {
 		Username: param.Username,
 		Password: util.PasswordEncode(param.Password),
 	}
-	db.Create(&u)
+	if err := tx.Create(&u).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	return tx.Commit().Error
 }
