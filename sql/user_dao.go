@@ -25,8 +25,12 @@ func (d *UserDao) Create(param *query.UserQuery) error {
 			tx.Rollback()
 		}
 	}()
-	var count uint64
-	tx.Model(&model.Users{}).Where("username = ?", param.Username).Count(&count)
+	var count int64
+	tx.Model(&models.Users{}).Where("username = ?", param.Username).Count(&count)
+
+	if count > 0 {
+		return errors.New("this username has exited")
+	}
 	uid := util.GetUUID()
 	b := models.Base{
 		ID:         uid,
