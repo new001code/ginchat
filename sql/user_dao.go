@@ -52,3 +52,22 @@ func (d *UserDao) Create(param *query.UserQuery) error {
 
 	return tx.Commit().Error
 }
+
+func (d *UserDao) find(param *query.UserQuery) error {
+	if param.Username == "" {
+		return errors.New("username is empty")
+	}
+	if param.Password == "" {
+		return errors.New("password is empty")
+	}
+	db := util.GetDB()
+	tx := db.Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	return tx.Commit().Error
+
+}
