@@ -10,17 +10,15 @@ import (
 
 var mode string
 
-var Log = &util.MyLog{}
-
 func init() {
-	Log.Debugln("start gin server")
+	util.DebugLogger.Println("start gin server")
 	mode = viper.GetString("env")
-	Log.Debugf("start set mode:  %s\n", mode)
+	util.DebugLogger.Printf("start set mode:  %s\n", mode)
 	if mode == "release" {
 		gin.SetMode(gin.ReleaseMode)
 	}
-	Log.Debugln("end set mode")
-	Log.Debugln("success start")
+	util.DebugLogger.Println("end set mode")
+	util.DebugLogger.Println("success start")
 }
 
 func Router() *gin.Engine {

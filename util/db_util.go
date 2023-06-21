@@ -2,10 +2,10 @@ package util
 
 import (
 	"fmt"
-	"ginchat/util"
 	"log"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
@@ -15,10 +15,13 @@ import (
 
 var db *gorm.DB
 
-var Log = &util.MyLog{}
+var (
+	DebugLogger *log.Logger = log.New(gin.DefaultWriter, "[DEBUG]", log.Lshortfile|log.Ldate|log.Lmicroseconds)
+	ErrorLogger *log.Logger = log.New(gin.DefaultErrorWriter, "[ERROR]", log.Lshortfile|log.Ldate|log.Lmicroseconds)
+)
 
 func init() {
-	Log.Println("start database pool init")
+	DebugLogger.Println("start database pool init")
 	databaseInit()
 }
 
@@ -83,7 +86,7 @@ func databaseInit() {
 		db = conn
 
 	}
-	log.Println("success database pool init")
+	DebugLogger.Println("success database pool init")
 
 }
 

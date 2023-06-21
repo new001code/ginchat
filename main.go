@@ -4,7 +4,6 @@ import (
 	"fmt"
 	_ "ginchat/common"
 	"ginchat/router"
-
 	_ "ginchat/util"
 
 	"github.com/spf13/viper"

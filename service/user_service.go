@@ -15,14 +15,12 @@ type UserService struct{}
 // userDao
 var userDao = &sql.UserDao{}
 
-var MyLog = &util.MyLog{}
-
 var ApiResponse = &models.ApiResponse{}
 
 func (u *UserService) Register(c *gin.Context) {
 	var user query.UserQuery
 	if err := c.ShouldBind(&user); err == nil {
-		MyLog.Errorf("user register param: %+v\n", user)
+		util.ErrorLogger.Printf("user register param: %+v\n", user)
 		err = userDao.Create(&user)
 		if err == nil {
 			c.JSON(http.StatusOK, ApiResponse.SuccessDefault())
@@ -30,7 +28,7 @@ func (u *UserService) Register(c *gin.Context) {
 			c.JSON(http.StatusOK, ApiResponse.FailWithMessage(err.Error()))
 		}
 	} else {
-		MyLog.Errorln("参数解析错误：", err)
+		util.ErrorLogger.Println("参数解析错误：", err)
 	}
 
 }
@@ -38,18 +36,18 @@ func (u *UserService) Register(c *gin.Context) {
 func (u *UserService) Login(c *gin.Context) {
 	var user query.UserQuery
 	if err := c.ShouldBind(&user); err == nil {
-		MyLog.Debugf("user login param: %+v\n", user)
+		util.DebugLogger.Printf("user login param: %+v\n", user)
 
 	} else {
-		MyLog.Errorln("参数解析错误：", err)
+		util.ErrorLogger.Println("参数解析错误：", err)
 	}
 }
 
 func (u *UserService) LoginCheckCode(c *gin.Context) {
 	var user query.UserQuery
 	if err := c.ShouldBind(&user); err == nil {
-		MyLog.Debugf("user email: %s\n", user.Email)
+		util.DebugLogger.Printf("user email: %s\n", user.Email)
 	} else {
-		MyLog.Errorln("参数解析错误：", err)
+		util.ErrorLogger.Println("参数解析错误：", err)
 	}
 }

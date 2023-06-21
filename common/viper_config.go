@@ -8,10 +8,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-var Log = &util.MyLog{}
-
 func init() {
-	Log.Debugln("start load configuration file")
+	util.DebugLogger.Println("start load configuration file")
 	viper.SetConfigFile("./config/application.yaml")
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -21,7 +19,7 @@ func init() {
 	viper.WatchConfig()
 
 	viper.OnConfigChange(func(e fsnotify.Event) {
-		Log.Debugf("config file changed: %s \n", e.Name)
+		util.DebugLogger.Printf("config file changed: %s \n", e.Name)
 	})
-	Log.Debugln("success load configuration file")
+	util.DebugLogger.Println("success load configuration file")
 }
