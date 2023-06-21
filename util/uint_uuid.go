@@ -6,6 +6,6 @@ import (
 )
 
 func GetUUID() uint32 {
-	rand.Seed(time.Now().UnixNano())
+	rand.NewSource(time.Now().UnixNano())
 	return rand.Uint32()
 }

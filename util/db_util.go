@@ -34,11 +34,11 @@ func databaseInit() {
 		)
 		conn, err := gorm.Open(mysql.Open(databaseName), &gorm.Config{})
 		if err != nil {
-			panic(fmt.Errorf("database source type: %s init err: %s \n", "mysql", err))
+			panic(fmt.Errorf("database source type: %s init err: %s", "mysql", err))
 		}
 		pool, err := conn.DB()
 		if err != nil {
-			panic(fmt.Errorf("database pool type: %s init err: %s \n", "mysql", err))
+			panic(fmt.Errorf("database pool type: %s init err: %s", "mysql", err))
 		}
 		pool.SetMaxIdleConns(viper.GetInt("databasePool.maxIdleConns"))
 		pool.SetMaxOpenConns(viper.GetInt("databasePool.maxOpenConns"))
@@ -54,11 +54,11 @@ func databaseInit() {
 		)
 		conn, err := gorm.Open(postgres.Open(databaseName), &gorm.Config{})
 		if err != nil {
-			panic(fmt.Errorf("database source type: %s init err: %s \n", "postgres", err))
+			panic(fmt.Errorf("database source type: %s init err: %s", "postgres", err))
 		}
 		pool, err := conn.DB()
 		if err != nil {
-			panic(fmt.Errorf("database pool type: %s init err: %s \n", "postgres", err))
+			panic(fmt.Errorf("database pool type: %s init err: %s", "postgres", err))
 		}
 		pool.SetMaxIdleConns(viper.GetInt("databasePool.maxIdleConns"))
 		pool.SetMaxOpenConns(viper.GetInt("databasePool.maxOpenConns"))
@@ -68,11 +68,11 @@ func databaseInit() {
 		databaseName := viper.GetString("database.database")
 		conn, err := gorm.Open(sqlite.Open(databaseName), &gorm.Config{})
 		if err != nil {
-			panic(fmt.Errorf("database source type: %s init err: %s \n", "sqlite", err))
+			panic(fmt.Errorf("database source type: %s init err: %s", "sqlite", err))
 		}
 		pool, err := conn.DB()
 		if err != nil {
-			panic(fmt.Errorf("database pool type: %s init err: %s \n", "sqlite", err))
+			panic(fmt.Errorf("database pool type: %s init err: %s", "sqlite", err))
 		}
 		pool.SetMaxIdleConns(viper.GetInt("databasePool.maxIdleConns"))
 		pool.SetMaxOpenConns(viper.GetInt("databasePool.maxOpenConns"))
@@ -87,7 +87,6 @@ func databaseInit() {
 func GetDB() *gorm.DB {
 	sqlDB, err := db.DB()
 	if err != nil {
-		fmt.Errorf("connect database server failed.")
 		databaseInit()
 	}
 
