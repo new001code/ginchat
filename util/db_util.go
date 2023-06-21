@@ -17,11 +17,12 @@ var db *gorm.DB
 
 var (
 	DebugLogger *log.Logger = log.New(gin.DefaultWriter, "[DEBUG]", log.Lshortfile|log.Ldate|log.Lmicroseconds)
+	Logger      *log.Logger = log.New(gin.DefaultWriter, "[INFO]", log.Lshortfile|log.Ldate|log.Lmicroseconds)
 	ErrorLogger *log.Logger = log.New(gin.DefaultErrorWriter, "[ERROR]", log.Lshortfile|log.Ldate|log.Lmicroseconds)
 )
 
 func init() {
-	DebugLogger.Println("start database pool init")
+	Logger.Println("start database pool init")
 	databaseInit()
 }
 
@@ -86,7 +87,7 @@ func databaseInit() {
 		db = conn
 
 	}
-	DebugLogger.Println("success database pool init")
+	Logger.Println("success database pool init")
 
 }
 

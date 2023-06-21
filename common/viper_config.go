@@ -2,14 +2,14 @@ package common
 
 import (
 	"fmt"
-	"ginchat/util"
+	"log"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
 )
 
 func init() {
-	util.DebugLogger.Println("start load configuration file")
+	log.Println("start load configuration file")
 	viper.SetConfigFile("./config/application.yaml")
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -19,7 +19,7 @@ func init() {
 	viper.WatchConfig()
 
 	viper.OnConfigChange(func(e fsnotify.Event) {
-		util.DebugLogger.Printf("config file changed: %s \n", e.Name)
+		log.Printf("config file changed: %s \n", e.Name)
 	})
-	util.DebugLogger.Println("success load configuration file")
+	log.Println("success load configuration file")
 }

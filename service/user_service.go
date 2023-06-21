@@ -17,6 +17,8 @@ var userDao = &sql.UserDao{}
 
 var ApiResponse = &models.ApiResponse{}
 
+var EmailUtil = &util.EmailUtil{}
+
 func (u *UserService) Register(c *gin.Context) {
 	var user query.UserQuery
 	if err := c.ShouldBind(&user); err == nil {
@@ -47,6 +49,7 @@ func (u *UserService) LoginCheckCode(c *gin.Context) {
 	var user query.UserQuery
 	if err := c.ShouldBind(&user); err == nil {
 		util.DebugLogger.Printf("user email: %s\n", user.Email)
+		EmailUtil.SendText([]string{user.Email}, "checkCode", "this is checkcode")
 	} else {
 		util.ErrorLogger.Println("参数解析错误：", err)
 	}

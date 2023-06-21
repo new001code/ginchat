@@ -11,14 +11,14 @@ import (
 var mode string
 
 func init() {
-	util.DebugLogger.Println("start gin server")
+	util.Logger.Println("start gin server")
 	mode = viper.GetString("env")
-	util.DebugLogger.Printf("start set mode:  %s\n", mode)
+	util.Logger.Printf("start set mode:  %s\n", mode)
 	if mode == "release" {
 		gin.SetMode(gin.ReleaseMode)
 	}
-	util.DebugLogger.Println("end set mode")
-	util.DebugLogger.Println("success start")
+	util.Logger.Println("end set mode")
+	util.Logger.Println("success start")
 }
 
 func Router() *gin.Engine {
@@ -29,6 +29,7 @@ func Router() *gin.Engine {
 	{
 		userService := &service.UserService{}
 		userGroup.POST("/register", userService.Register)
+		userGroup.POST("/checkCode", userService.LoginCheckCode)
 	}
 	return r
 }
