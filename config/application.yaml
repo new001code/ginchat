@@ -16,8 +16,8 @@ dataSourcePool:
 
 mail:
   host: smtp.163.com
-  username: new001code@163.com
-  password: PTFKEIEKJFGFODJI
+  username: 1******.com
+  password: 123123213
   protocol: smtps
   port: 465
   default-encoding: UTF-8

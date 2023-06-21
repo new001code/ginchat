@@ -1,21 +1,21 @@
-package util
+package util_test
 
 import (
 	"net/smtp"
+	"testing"
 	"time"
 
 	"github.com/jordan-wright/email"
 )
 
-func EmailUtil() {
-	// ch := make(chan *email.Email, 10)
+func EmailTest(t *testing.T) {
 	p, err := email.NewPool(
 		"smtp.163.com:465",
 		4,
 		smtp.PlainAuth("", "new001code@163.com", "PTFKEIEKJFGFODJI", "smtp.163.com"),
 	)
 	if err != nil {
-		ErrorLogger.Fatalln("email init error")
+		t.Error("error")
 	}
 
 	e := email.NewEmail()
