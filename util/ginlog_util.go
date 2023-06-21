@@ -1,25 +1,36 @@
 package util
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/gin-gonic/gin"
 )
 
-type Log struct{}
-
-func (l *Log) Debugln(s ...any) {
-	fmt.Fprintln(gin.DefaultWriter, s...)
+type MyLog struct {
 }
 
-func (l *Log) Errorln(s ...any) {
-	fmt.Fprintln(gin.DefaultErrorWriter, s...)
+var (
+	debugLogger *log.Logger
+	errorLogger *log.Logger
+)
+
+func init() {
+	debugLogger = log.New(gin.DefaultWriter, "[DEBUG]", log.Lshortfile|log.LstdFlags)
+	errorLogger = log.New(gin.DefaultErrorWriter, "[ERROR]", log.Lshortfile|log.LstdFlags)
 }
 
-func (l *Log) Debugf(format string, s ...any) {
-	fmt.Fprintf(gin.DefaultWriter, format, s...)
+func (l *MyLog) Debugln(s ...any) {
+	debugLogger.Println(s...)
 }
 
-func (l *Log) Errorf(format string, s ...any) {
-	fmt.Fprintf(gin.DefaultErrorWriter, format, s...)
+func (l *MyLog) Errorln(s ...any) {
+	errorLogger.Println(s...)
+}
+
+func (l *MyLog) Debugf(format string, s ...any) {
+	debugLogger.Printf(format, s...)
+}
+
+func (l *MyLog) Errorf(format string, s ...any) {
+	errorLogger.Printf(format, s...)
 }

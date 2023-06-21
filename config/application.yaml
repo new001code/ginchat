@@ -5,11 +5,19 @@ dataSource:
   type: mysql
   username: root
   password: qwert12345
-  host: 127.0.0.1
+  host: 47.99.180.88
   port: 3306
   database: ginchat
 
 dataSourcePool:
   maxIdleConns: 10
   maxOpenConns: 100
-  connMaxLifetime: 86400  
+  connMaxLifetime: 86400
+
+mail:
+  host: smtp.163.com
+  username: new001code@163.com
+  password: PTFKEIEKJFGFODJI
+  protocol: smtps
+  port: 465
+  default-encoding: UTF-8

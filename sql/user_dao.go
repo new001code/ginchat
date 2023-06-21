@@ -13,10 +13,16 @@ type UserDao struct{}
 
 func (d *UserDao) Create(param *query.UserQuery) error {
 	if param.Username == "" {
-		return errors.New("username is null")
+		return errors.New("username is empty")
 	}
 	if param.Password == "" {
-		return errors.New("password is null")
+		return errors.New("password is empty")
+	}
+	if param.Email == "" {
+		return errors.New("email is empty")
+	}
+	if param.CheckCode == "" {
+		return errors.New("checkCode is empty")
 	}
 	db := util.GetDB()
 	tx := db.Begin()
@@ -53,7 +59,7 @@ func (d *UserDao) Create(param *query.UserQuery) error {
 	return tx.Commit().Error
 }
 
-func (d *UserDao) find(param *query.UserQuery) error {
+func (d *UserDao) Find(param *query.UserQuery) error {
 	if param.Username == "" {
 		return errors.New("username is empty")
 	}

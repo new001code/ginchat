@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"ginchat/util"
 	"log"
 	"time"
 
@@ -14,8 +15,10 @@ import (
 
 var db *gorm.DB
 
+var Log = &util.MyLog{}
+
 func init() {
-	log.Println("start database pool init")
+	Log.Println("start database pool init")
 	databaseInit()
 }
 

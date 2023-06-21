@@ -4,4 +4,5 @@ type Users struct {
 	Base     Base `gorm:"embedded"`
 	Username string
 	Password string
+	Email    string
 }
