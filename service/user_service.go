@@ -54,3 +54,7 @@ func (u *UserService) LoginCheckCode(c *gin.Context) {
 		util.ErrorLogger.Println("参数解析错误：", err)
 	}
 }
+
+func (u *UserService) GetPublicKey(c *gin.Context) {
+	c.JSON(http.StatusOK, ApiResponse.SuccessWithData(util.RSAPrivateKey.PublicKey))
+}
