@@ -6,6 +6,7 @@ import (
 	"ginchat/sql"
 	"ginchat/util"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,11 +19,13 @@ var userDao = &sql.UserDao{}
 var ApiResponse = &models.ApiResponse{}
 
 var EmailUtil = &util.EmailUtil{}
+var RedisUtil = &util.RedisUtil{}
 
 func (u *UserService) Register(c *gin.Context) {
 	var user query.UserQuery
 	if err := c.ShouldBind(&user); err == nil {
-		util.ErrorLogger.Printf("user register param: %+v\n", user)
+		util.DebugLogger.Printf("user register param: %+v\n", user)
+		RedisUtil.SetString("email", user.Email, 30*time.Second)
 		err = userDao.Create(&user)
 		if err == nil {
 			c.JSON(http.StatusOK, ApiResponse.SuccessDefault())

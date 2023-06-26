@@ -19,6 +19,7 @@ var (
 func init() {
 	Logger.Println("start redis init")
 	redisInit()
+	Logger.Println("end redis init")
 }
 
 // get redis client instance
