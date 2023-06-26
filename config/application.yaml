@@ -21,3 +21,9 @@ mail:
   password: LELAZIGQPJIDULFQ
   port: 25
   poolSize: 4
+
+redis:
+  host: 47.99.180.88
+  port: 6379
+  password: qwert12345
+  db: 0
