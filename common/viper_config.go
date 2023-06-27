@@ -1,25 +1,46 @@
 package common
 
 import (
-	"fmt"
-	"log"
+	"os"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
+var Logger *zap.SugaredLogger
+
 func init() {
-	log.Println("start load configuration file")
+	logInit()
+	confInit()
+}
+
+func logInit() {
+	write := zapcore.AddSync(os.Stdout)
+	//日志格式配置
+	encoderConfig := zap.NewProductionEncoderConfig()
+	encoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout("2006-01-02 15:04:05.000")
+	encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
+	encoder := zapcore.NewConsoleEncoder(encoderConfig)
+
+	core := zapcore.NewCore(encoder, write, zapcore.DebugLevel)
+	logger := zap.New(core, zap.AddCaller())
+	Logger = logger.Sugar()
+}
+
+func confInit() {
+	Logger.Info("start load configuration file")
 	viper.SetConfigFile("./config/application.yaml")
 	err := viper.ReadInConfig()
 	if err != nil {
-		panic(fmt.Errorf("fatal error reading configuration file: %s", err))
+		Logger.Fatalf("fatal error reading configuration file: %s", err)
 	}
 
 	viper.WatchConfig()
 
 	viper.OnConfigChange(func(e fsnotify.Event) {
-		log.Printf("config file changed: %s \n", e.Name)
+		Logger.Warnf("config file changed: %s \n", e.Name)
 	})
-	log.Println("success load configuration file")
+	Logger.Info("success load configuration file")
 }

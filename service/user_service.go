@@ -1,6 +1,7 @@
 package service
 
 import (
+	"ginchat/common"
 	"ginchat/models"
 	query "ginchat/models/query"
 	"ginchat/sql"
@@ -24,7 +25,7 @@ var RedisUtil = &util.RedisUtil{}
 func (u *UserService) Register(c *gin.Context) {
 	var user query.UserQuery
 	if err := c.ShouldBind(&user); err == nil {
-		util.DebugLogger.Printf("user register param: %+v\n", user)
+		common.Logger.Debugf("user register param: %+v", user)
 		RedisUtil.SetString("email", user.Email, 30*time.Second)
 		err = userDao.Create(&user)
 		if err == nil {
@@ -33,7 +34,7 @@ func (u *UserService) Register(c *gin.Context) {
 			c.JSON(http.StatusOK, ApiResponse.FailWithMessage(err.Error()))
 		}
 	} else {
-		util.ErrorLogger.Println("参数解析错误：", err)
+		common.Logger.Error("参数解析错误：", err)
 	}
 
 }
@@ -41,20 +42,20 @@ func (u *UserService) Register(c *gin.Context) {
 func (u *UserService) Login(c *gin.Context) {
 	var user query.UserQuery
 	if err := c.ShouldBind(&user); err == nil {
-		util.DebugLogger.Printf("user login param: %+v\n", user)
+		common.Logger.Debugf("user login param: %+v", user)
 
 	} else {
-		util.ErrorLogger.Println("参数解析错误：", err)
+		common.Logger.Error("参数解析错误：", err)
 	}
 }
 
 func (u *UserService) LoginCheckCode(c *gin.Context) {
 	var user query.UserQuery
 	if err := c.ShouldBind(&user); err == nil {
-		util.DebugLogger.Printf("user email: %s\n", user.Email)
+		common.Logger.Debugf("user email: %s", user.Email)
 		EmailUtil.SendText([]string{user.Email}, "checkCode", "this is checkcode")
 	} else {
-		util.ErrorLogger.Println("参数解析错误：", err)
+		common.Logger.Error("参数解析错误：", err)
 	}
 }
 

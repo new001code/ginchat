@@ -7,6 +7,8 @@ import (
 
 	"github.com/jordan-wright/email"
 	"github.com/spf13/viper"
+
+	"ginchat/common"
 )
 
 type EmailUtil struct{}
@@ -18,19 +20,19 @@ var (
 )
 
 func init() {
-	Logger.Println("email pool init")
+	common.Logger.Info("email pool init")
 	h := fmt.Sprintf("%s:%d", viper.GetString("mail.host"), viper.GetInt("mail.port"))
 	ps := viper.GetInt("mail.poolSize")
 	un := viper.GetString("mail.username")
 	pw := viper.GetString("mail.password")
-	Logger.Printf("host:%s", h)
+	common.Logger.Infof("host:%s", h)
 	mailPool, err := email.NewPool(
 		h,
 		ps,
 		smtp.PlainAuth("", un, pw, viper.GetString("mail.host")),
 	)
 	if err != nil {
-		ErrorLogger.Println("fail create mail pool", err)
+		common.Logger.Error("fail create mail pool", err)
 	}
 	pool = mailPool
 }
@@ -38,9 +40,9 @@ func init() {
 func sendEmail() {
 	e := <-ch
 	if err := pool.Send(e, 10*time.Second); err != nil {
-		ErrorLogger.Printf("send email err: to: %s  err: %s", e.To, err)
+		common.Logger.Error("send email err: to: %s  err: %s", e.To, err)
 	} else {
-		DebugLogger.Printf("send email success")
+		common.Logger.Debug("send email success")
 	}
 }
 

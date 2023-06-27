@@ -1,8 +1,8 @@
 package router
 
 import (
+	"ginchat/common"
 	"ginchat/service"
-	"ginchat/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -11,14 +11,15 @@ import (
 var mode string
 
 func init() {
-	util.Logger.Println("start gin server")
+	gin.ForceConsoleColor()
+	common.Logger.Info("start gin server")
 	mode = viper.GetString("env")
-	util.Logger.Printf("start set mode:  %s\n", mode)
+	common.Logger.Infof("start set mode:  %s", mode)
 	if mode == "release" {
 		gin.SetMode(gin.ReleaseMode)
 	}
-	util.Logger.Println("end set mode")
-	util.Logger.Println("success start")
+	common.Logger.Info("end set mode")
+	common.Logger.Info("success start")
 }
 
 func Router() *gin.Engine {

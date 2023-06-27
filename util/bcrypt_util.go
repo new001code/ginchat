@@ -4,6 +4,8 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 
+	"ginchat/common"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -18,7 +20,7 @@ func init() {
 func PasswordEncode(p string) string {
 	hash, err := bcrypt.GenerateFromPassword([]byte(p), bcrypt.DefaultCost)
 	if err != nil {
-		ErrorLogger.Printf("password encoding err: %s", err)
+		common.Logger.Errorf("password encoding err: %s", err)
 	}
 	return string(hash)
 }
@@ -35,7 +37,7 @@ func PasswordCheck(oldP, newP string) bool {
 func getPrivateKey() *rsa.PrivateKey {
 	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
-		ErrorLogger.Println("create key pair err:", err)
+		common.Logger.Errorf("create key pair err: %s", err)
 	}
 	return privateKey
 }

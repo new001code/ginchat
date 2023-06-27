@@ -1,9 +1,9 @@
 package service
 
 import (
+	"ginchat/common"
 	"ginchat/models"
 	"ginchat/sql"
-	"ginchat/util"
 )
 
 type EmailService struct{}
@@ -15,10 +15,10 @@ var (
 var emailTemplateDao = &sql.EmailTemplateDao{}
 
 func init() {
-	util.Logger.Println("init email template")
+	common.Logger.Info("init email template")
 	ls, err := emailTemplateDao.QueryAllTemplate()
 	if err != nil {
-		util.ErrorLogger.Println("init email template error", err)
+		common.Logger.Error("init email template error", err)
 	}
 	for t := range ls {
 		temp := ls[t]
