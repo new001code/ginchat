@@ -35,7 +35,8 @@ func databaseInit() {
 			viper.GetString("dataSource.database"),
 		)
 		conn, err := gorm.Open(mysql.Open(databaseName), &gorm.Config{
-			Logger: logger.Default.LogMode(logger.Info),
+			Logger:                 logger.Default.LogMode(logger.Info),
+			SkipDefaultTransaction: true,
 		})
 		if err != nil {
 			panic(fmt.Errorf("database source type: %s init err: %s", "mysql", err))
@@ -46,7 +47,8 @@ func databaseInit() {
 		}
 		pool.SetMaxIdleConns(viper.GetInt("databasePool.maxIdleConns"))
 		pool.SetMaxOpenConns(viper.GetInt("databasePool.maxOpenConns"))
-		pool.SetConnMaxLifetime(time.Second * 600)
+		connMaxLifeTime := viper.GetInt("databasePool.connMaxLifetime")
+		pool.SetConnMaxLifetime(time.Second * time.Duration(connMaxLifeTime))
 		db = conn
 	} else if databaseType == "postgres" {
 		databaseName := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable  TimeZone=Asia/Shanghai",
@@ -57,7 +59,8 @@ func databaseInit() {
 			viper.GetInt("dataSource.port"),
 		)
 		conn, err := gorm.Open(postgres.Open(databaseName), &gorm.Config{
-			Logger: logger.Default.LogMode(logger.Info),
+			Logger:                 logger.Default.LogMode(logger.Info),
+			SkipDefaultTransaction: true,
 		})
 		if err != nil {
 			panic(fmt.Errorf("database source type: %s init err: %s", "postgres", err))
@@ -68,12 +71,14 @@ func databaseInit() {
 		}
 		pool.SetMaxIdleConns(viper.GetInt("databasePool.maxIdleConns"))
 		pool.SetMaxOpenConns(viper.GetInt("databasePool.maxOpenConns"))
-		pool.SetConnMaxLifetime(time.Second * 600)
+		connMaxLifeTime := viper.GetInt("databasePool.connMaxLifetime")
+		pool.SetConnMaxLifetime(time.Second * time.Duration(connMaxLifeTime))
 		db = conn
 	} else {
 		databaseName := viper.GetString("database.database")
 		conn, err := gorm.Open(sqlite.Open(databaseName), &gorm.Config{
-			Logger: logger.Default.LogMode(logger.Info),
+			Logger:                 logger.Default.LogMode(logger.Info),
+			SkipDefaultTransaction: true,
 		})
 		if err != nil {
 			panic(fmt.Errorf("database source type: %s init err: %s", "sqlite", err))
@@ -84,7 +89,8 @@ func databaseInit() {
 		}
 		pool.SetMaxIdleConns(viper.GetInt("databasePool.maxIdleConns"))
 		pool.SetMaxOpenConns(viper.GetInt("databasePool.maxOpenConns"))
-		pool.SetConnMaxLifetime(time.Second * 600)
+		connMaxLifeTime := viper.GetInt("databasePool.connMaxLifetime")
+		pool.SetConnMaxLifetime(time.Second * time.Duration(connMaxLifeTime))
 		db = conn
 
 	}

@@ -40,7 +40,9 @@ func Router() *gin.Engine {
 		userService := &service.UserService{}
 		userGroup.POST("/register", userService.Register)
 		userGroup.POST("/checkCode", userService.LoginCheckCode)
+		userGroup.GET("/publicKey", userService.GetPublicKey)
 	}
+
 	return r
 }
 

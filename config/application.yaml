@@ -12,7 +12,7 @@ dataSource:
 dataSourcePool:
   maxIdleConns: 10
   maxOpenConns: 100
-  connMaxLifetime: 86400
+  connMaxLifetime: 3600
 
 mail:
   host: smtp.163.com
