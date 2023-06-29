@@ -4,8 +4,8 @@ dataSource:
   # type: mysql postgres sqlite
   type: mysql
   username: root
-  password: qwert12345
-  host: 47.99.180.88
+  password: 12345q
+  host: localhost
   port: 3306
   database: ginchat
 
@@ -16,14 +16,14 @@ dataSourcePool:
 
 mail:
   host: smtp.163.com
-  username: new001code@163.com
-  fromName: new001
+  username: test@163.com
+  fromName: test
   password: LELAZIGQPJIDULFQ
   port: 25
   poolSize: 4
 
 redis:
-  host: 47.99.180.88
+  host: localhost
   port: 6379
-  password: qwert12345
+  password: qwasda2
   db: 0
